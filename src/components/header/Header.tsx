@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-// import { useDispatch } from "react-redux";
-// import { toggleSideBar } from "../../../../../redux/features/reducers/sidebarSlice";
-// import { useSelector } from "react-redux";
-// import { RootState } from "../../../../../redux/app/store";
+import { useDispatch } from "react-redux";
+import { toggleSideBar } from "../../redux/features/reducer/sidebarSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/app/store";
 import { useNavigate } from "react-router-dom";
-// import { deleteUserTokenAndUserData } from "../../../../../redux/features/reducers/userAuthSlice";
+import { deleteUserTokenAndUserData } from "../../redux/features/reducer/userAuthSlice";
 
-// import logo from "../../../../../logo/netwave-blue.png";
+import logo from "../../../public/WhatsApp Image 2024-01-24 at 12.10.24 PM.jpeg";
 
-const TopNavBar= () => {
+const Header: React.FC = () => {
   const [menuvisible, setMenuvisible] = useState(false);
   const [profilevisible, setProfilevisible] = useState(false);
   const navigate = useNavigate();
@@ -29,11 +29,11 @@ const TopNavBar= () => {
   const dispatch = useDispatch();
 
   const handleSideBar = () => {
-    // dispatch(toggleSideBar());
+    dispatch(toggleSideBar());
   };
   const userSignOut = () => {
     console.log("userSignOut ----------------");
-    dispatch(deleteUserTokenAndUserData());
+    // dispatch(deleteUserTokenAndUserData());
     navigate("/login");
   };
 
@@ -83,21 +83,9 @@ const TopNavBar= () => {
               </svg>
               <span className="sr-only">Toggle sidebar</span>
             </button>
-            {/* <a
-              href="https://flowbite.com"
-              className="flex items-center justify-between mr-4"
-            >
-              <img
-                src="https://flowbite.s3.amazonaws.com/logo.svg"
-                className="mr-3 h-8"
-                alt="Flowbite Logo"
-              />
-              <span className="self-center text-2xl font-semibold whitespace-nowrap ">
-                Flowbite
-              </span>
-            </a> */}
+           
             <img src={logo} alt="" className="w-auto h-10" />
-            <form action="#" method="GET" className="hidden md:block md:pl-2">
+            {/* <form action="#" method="GET" className="hidden md:block md:pl-2">
               <label htmlFor="topbar-search" className="sr-only">
                 Search
               </label>
@@ -124,10 +112,10 @@ const TopNavBar= () => {
                   placeholder="Search"
                 />
               </div>
-            </form>
+            </form> */}
           </div>
           <div className="flex items-center lg:order-2">
-            <button
+            {/* <button
               type="button"
               data-drawer-toggle="drawer-navigation"
               aria-controls="drawer-navigation"
@@ -148,25 +136,10 @@ const TopNavBar= () => {
                   d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                 ></path>
               </svg>
-            </button>
-            {/* <button
-              type="button"
-              data-dropdown-toggle="notification-dropdown"
-              className="p-2 mr-1 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100  focus:ring-4 focus:ring-gray-300"
-            >
-              <span className="sr-only">View notifications</span>
-              <svg
-                aria-hidden="true"
-                className="w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
-              </svg>
             </button> */}
+           
 
-            <button
+            {/* <button
               type="button"
               data-dropdown-toggle="apps-dropdown"
               className="relative  p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300"
@@ -181,8 +154,8 @@ const TopNavBar= () => {
               >
                 <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
               </svg>
-            </button>
-            {menuvisible && (
+            </button> */}
+            {/* {menuvisible && (
               <ul className="menu-list absolute right-0 top-10">
                 <div
                   className=" w-96 h-96 overflow-hidden z-auto my-4 max-w-sm text-base list-none bg-white rounded divide-y divide-gray-100 shadow-lg rounded-xl"
@@ -364,7 +337,7 @@ const TopNavBar= () => {
                   </div>
                 </div>
               </ul>
-            )}
+            )} */}
 
             <button
               type="button"
@@ -377,7 +350,7 @@ const TopNavBar= () => {
               <span className="sr-only">Open user menu</span>
               <img
                 className="w-8 h-8 rounded-full"
-                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                src="https://media.istockphoto.com/id/1327592506/vector/default-avatar-photo-placeholder-icon-grey-profile-picture-business-man.jpg?s=612x612&w=0&k=20&c=BpR0FVaEa5F24GIw7K8nMWiiGmbb8qmhfkpXcp1dhQg="
                 alt="user photo"
               />
             </button>
@@ -391,11 +364,11 @@ const TopNavBar= () => {
                   <div className="py-3 px-4">
                     <span className="block text-sm font-semibold text-gray-900 ">
                       {/* Neil Sims */}
-                      {user?.userdata?.firstName}
+                      {/* {user?.userdata?.firstName} */}
                     </span>
                     <span className="block text-sm text-gray-900 truncate ">
                       {/* name@flowbite.com */}
-                      {user?.userdata?.email}
+                      {/* {user?.userdata?.email} */}
                     </span>
                   </div>
                   <ul className="py-1 text-gray-700" aria-labelledby="dropdown">
@@ -407,17 +380,17 @@ const TopNavBar= () => {
                         My profile
                       </a>
                     </li>
-                    <li>
+                    {/* <li>
                       <a
                         //   href="#"
                         className="block py-2 px-4 text-sm hover:bg-gray-100 "
                       >
                         Account settings
                       </a>
-                    </li>
+                    </li> */}
                   </ul>
-                  <ul className="py-1 text-gray-700" aria-labelledby="dropdown">
-                    <li>
+                  <ul className=" text-gray-700" aria-labelledby="dropdown">
+                    {/* <li>
                       <a
                         href="#"
                         className="flex items-center py-2 px-4 text-sm hover:bg-gray-100 "
@@ -436,8 +409,8 @@ const TopNavBar= () => {
                         </svg>
                         My likes
                       </a>
-                    </li>
-                    <li>
+                    </li> */}
+                    {/* <li>
                       <a
                         href="#"
                         className="flex items-center py-2 px-4 text-sm hover:bg-gray-100"
@@ -452,8 +425,8 @@ const TopNavBar= () => {
                         </svg>
                         Collections
                       </a>
-                    </li>
-                    <li>
+                    </li> */}
+                    {/* <li>
                       <a
                         href="#"
                         className="flex justify-between items-center py-2 px-4 text-sm hover:bg-gray-100"
@@ -488,15 +461,17 @@ const TopNavBar= () => {
                           ></path>
                         </svg>
                       </a>
-                    </li>
+                    </li> */}
                   </ul>
                   <ul
                     className="py-1 text-gray-700 "
                     aria-labelledby="dropdown"
                   >
+                   
                     {/* <button
                     className="block py-2 px-4 text-sm hover:bg-gray-100 "
                     onClick={userSignOut}>Sign out</button> */}
+
                     <li>
                       <a
                         href="#"
@@ -522,4 +497,4 @@ const TopNavBar= () => {
   );
 };
 
-export default TopNavBar;
+export default Header;

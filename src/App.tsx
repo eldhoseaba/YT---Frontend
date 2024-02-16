@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import AdminRoute from "./routes/AdminRoute";
 
-function App() {
+const App: React.FC = () => {
   return (
     <>
       <Router>
@@ -14,6 +14,6 @@ function App() {
       </Router>
     </>
   );
-}
+};
 
 export default App;
