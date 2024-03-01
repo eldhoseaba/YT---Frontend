@@ -1,86 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DataTable, { Column } from "react-data-table-component";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import backend_Url from "../../api/api";
+import EditForm from "./EditForm"; 
+
 
 interface Channel {
   _id: string;
-  name: string;
+  channelName: string;
   email: string;
   commission: number;
 }
 
 const ChannelList = () => {
-  const [channels, setChannels] = useState<Channel[]>([
-    {
-      name: "John Doe",
-      email: "john@example.com",
-      commission: 10,
-      _id: "1",
-    },
-    {
-      name: "Jane Smith",
-      email: "jane@example.com",
-      commission: 15,
-      _id: "2",
-    },
-    {
-      name: "Alice Johnson",
-      email: "alice@example.com",
-      commission: 12,
-      _id: "3",
-    },
-    {
-      name: "Bob Williams",
-      email: "bob@example.com",
-      commission: 18,
-      _id: "4",
-    },
-    {
-      name: "Eva Brown",
-      email: "eva@example.com",
-      commission: 9,
-      _id: "5",
-    },
-    {
-      name: "Michael Lee",
-      email: "michael@example.com",
-      commission: 11,
-      _id: "6",
-    },
-    {
-      name: "Sophia Garcia",
-      email: "sophia@example.com",
-      commission: 14,
-      _id: "7",
-    },
-    {
-      name: "David Rodriguez",
-      email: "david@example.com",
-      commission: 16,
-      _id: "8",
-    },
-    {
-      name: "Emma Martinez",
-      email: "emma@example.com",
-      commission: 13,
-      _id: "9",
-    },
-    {
-      name: "William Hernandez",
-      email: "william@example.com",
-      commission: 20,
-      _id: "10",
-    },
-  ]);
+  const [channels, setChannels] = useState<Channel[]>([]);
+  const [reFetch, setReFetch] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [editedData, setEditedData] = useState<Channel | null>(null);
 
   const columns: Column<Channel>[] = [
     { name: "Index", selector: (row: any, index: number) => index + 1 },
-    { name: "Name", selector: (row: { name: any }) => row.name },
+    { name: "Name", selector: (row: { channelName: any; name: any }) => row.channelName },
     { name: "E-mail", selector: (row: { email: any }) => row.email },
-    {
-      name: "Commission %",
-      selector: (row: { commission: any }) => row.commission,
-    },
+    { name: "Commission %", selector: (row: { commission: any }) => row.commission },
     {
       name: "Action",
       cell: (row: Channel) => (
@@ -102,22 +45,58 @@ const ChannelList = () => {
     },
   ];
 
-  const data = channels.map((channel, index) => ({
-    index: index + 1,
-    name: channel.name,
-    email: channel.email,
-    commission: channel.commission,
-  }));
 
   const handleEdit = (row: Channel) => {
-    // Handle edit action
-    console.log("Edit row:", row);
+    setEditMode(true);
+    setEditedData(row);
+  };
+  
+  const handleSaveEdit = async (editedData: Channel) => {
+    try {
+      const response = await axios.put(`${backend_Url}/api/admin/edit-channel/${editedData._id}`, {
+      
+        // Include other fields to be updated
+        ...editedData,
+      });
+
+      console.log("Edit response:", response.data);
+
+      // Update the state with the edited data
+      setChannels((prevChannels) =>
+        prevChannels.map((ch) => (ch._id === editedData._id ? response.data : ch))
+      );
+
+      setEditMode(false);
+      setEditedData(null);
+    } catch (error) {
+      console.error("Error editing channel:", error);
+    }
   };
 
-  const handleDelete = (row: Channel) => {
-    // Handle delete action
-    console.log("Delete row:", row);
+
+  const handleDelete = async (row: Channel) => {
+    try {
+      const response = await axios.post(`${backend_Url}/api/admin/delete-channel`,{id:row._id});
+      console.log("Delete row:", row);
+      console.log("Delete response:", response.data);
+      setReFetch((prev) => !prev);
+    } catch (error) {
+      console.error("Error deleting channel:", error);
+    }
   };
+
+  useEffect(() => {
+    const fetchChannels = async () => {
+      try {
+        const response = await axios.get(`${backend_Url}/api/admin/channels`); 
+        setChannels(response.data);
+      } catch (error) {
+        console.error("Error fetching channels:", error);
+      }
+    };
+
+    fetchChannels();
+  }, [reFetch]);
 
   return (
     <>
@@ -135,17 +114,28 @@ const ChannelList = () => {
           </Link>
         </div>
         <div className="flex flex-col mt-10">
+        {editMode ? (
+          // Render edit form or modal
+          <EditForm
+            editedData={editedData}
+            onCancel={() => setEditMode(false)}
+            onSave={handleSaveEdit}
+          />
+        ) : (
+          // Render DataTable
           <DataTable
             columns={columns}
-            data={data}
+            data={channels}
             pagination
             highlightOnHover
             responsive
           />
+        )}
         </div>
       </div>
     </>
   );
 };
+
 
 export default ChannelList;

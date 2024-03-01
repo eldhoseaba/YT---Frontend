@@ -2,6 +2,8 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import backend_Url from "../../api/api";
 
 const AddChannel = () => {
   const navigate = useNavigate();
@@ -32,10 +34,27 @@ const AddChannel = () => {
   };
 
   // Handle form submission
-  const onSubmit = (values: any) => {
-    console.log("Form submitted with values:", values);
-    // You can perform further actions like API calls here
+  const onSubmit = async (values: any, { setSubmitting }: any) => {
+    try {
+      // Make API call to add values to the backend
+      const response = await axios.post(`${backend_Url}/api/admin/addChannel`, values);
+
+      // Log the API response (you can handle this based on your backend response)
+      console.log("API Response:", response.data);
+      navigate('/channels');
+
+      // You can perform further actions here, such as showing a success message, redirecting, etc.
+
+    } catch (error) {
+      // Log and handle errors
+      console.error("API Error:", error);
+    } finally {
+      // Reset submitting state
+      setSubmitting(false);
+    }
   };
+
+ 
 
   return (
     <div className="p-6 bg-gray-100 rounded-lg shadow-md">
