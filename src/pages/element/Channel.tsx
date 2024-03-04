@@ -51,6 +51,7 @@ const ChannelList = () => {
     setEditedData(row);
   };
   
+  
   const handleSaveEdit = async (editedData: Channel) => {
     try {
       const response = await axios.put(`${backend_Url}/api/admin/edit-channel/${editedData._id}`, {
